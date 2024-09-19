@@ -26,4 +26,4 @@ The input parameters of this function are:
 * WT: display width of the filaments in micrometer
 * simtime: the simulated time before and after the appearance of docking sites
 
-
+For the script to properly work, the .cym template "ThreePopulations_template.txt" needs to be in the same folder where the user is working. This template will be formatted and re-saved with the provided outputname.
