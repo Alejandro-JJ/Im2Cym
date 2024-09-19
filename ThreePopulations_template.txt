@@ -1,0 +1,128 @@
+set simul system
+{
+    time_step = 0.005
+    viscosity = 0.01
+    kT = 0.01 % increases mobility
+    precondition = 0
+    display = ( style=2; label=(Hackaton2024 - Jannis Fischer & Alejandro Jurado); )
+}
+set space cell
+{
+	shape = periodic
+	display = (visible=0)
+}
+
+new cell
+{
+	length = cellwidth, cellheight
+}
+
+% INITIALIZE THREE POPULATIONS OF TUBES
+% Binding keys are bitwise exlucive: R=1, G=2, B=4
+
+set fiber TUBE_R
+{
+    rigidity = 0.001 
+    segmentation = 0.1
+    binding_key = 1
+    display = ( line_width=WT_R; color=red; )
+}
+set fiber TUBE_G
+{
+    rigidity = 0.001 
+    segmentation = 0.1
+    binding_key = 2
+    display = ( line_width=WT_G; color=green; )
+}
+set fiber TUBE_B
+{
+    rigidity = 0.001 
+    segmentation = 0.1
+    binding_key = 4
+    display = ( line_width=WT_B; color=blue; )
+}
+
+% INITIALIZE THREE POPULATIONS OF GLUE
+
+set hand GLUE_R
+{
+    binding_rate = 10
+    binding_range = 0.2
+    unbinding_rate = 0.0
+    binding_key = 1
+    display = ( size=10; color=red; visible=0;) %invisible kinesin
+}
+
+set single GRAFT_R
+{
+    hand = GLUE_R
+    stiffness = 100
+    activity = fixed
+}
+
+set hand GLUE_G
+{
+    binding_rate = 10
+    binding_range = 0.2
+    unbinding_rate = 0.0
+    binding_key = 2
+    display = ( size=10; color=green; visible=0;) %invisible kinesin
+}
+
+set single GRAFT_G
+{
+    hand = GLUE_G
+    stiffness = 100
+    activity = fixed
+}
+
+set hand GLUE_B
+{
+    binding_rate = 10
+    binding_range = 0.2
+    unbinding_rate = 0.0
+    binding_key = 4
+    display = ( size=10; color=blue; visible=0;) %invisible kinesin
+}
+
+set single GRAFT_B
+{
+    hand = GLUE_B
+    stiffness = 100
+    activity = fixed
+}
+
+% INSTANCES OF TUBE OBJECTS: skeletonized for parser
+
+new NT_R TUBE_R
+{
+    length = LT_R
+}
+
+new NT_G TUBE_G
+{
+    length = LT_G
+}
+
+new NT_B TUBE_B
+{
+    length = LT_B
+}
+
+% FIRST SIMULATION RUN WITHOUT GLUE: to showcase brownian motion
+run system
+{
+    nb_steps = sim_brown
+}
+
+
+% INSTANCES OF GLUE OBJECTS: skeletonized for parser
+
+
+
+% SECOND SIMULATION RUN WITH GLUE: to showcase pattern building
+run system
+{
+    nb_steps = sim_pattern
+}
+
